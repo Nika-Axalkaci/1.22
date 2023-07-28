@@ -1,18 +1,19 @@
 import React, { useState } from 'react'
-import { useDispatch } from 'react-redux'
+import { useDispatch} from 'react-redux'
 import { Link } from 'react-router-dom'
-import { addTodoAction } from '../store/todo/todo.actions'
+import { addTodoThunk } from '../store/todo/todo.thunks'
 
 const CreateTodo = () => {
   const dispatch = useDispatch()
   const [value,setValue] = useState('')
-  const onSubmit = (e)=>{
+  
+  const OnSubmit = (e)=>{
   e.preventDefault()
-  dispatch(addTodoAction(value))
+  dispatch(addTodoThunk(value))
   setValue("")
   }
   return (
-    <form onSubmit={onSubmit}>
+    <form onSubmit={OnSubmit}>
       <input type="text" value={value} onChange={(e)=>setValue(e.target.value)} />
       <button>submit</button>
       <Link to={'/'}>Main</Link>

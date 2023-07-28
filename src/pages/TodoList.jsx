@@ -1,30 +1,26 @@
-import React from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import React, { useEffect } from 'react'
+import {  useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
-import { deletetodoAction, doneTodoAction } from '../store/todo/todo.actions'
+import { fetchTodos } from '../store/todo/todo.thunks'
 
 const TodoList = () => {
-  const {todoList} = useSelector((state)=>state.todo)
   const dispatch = useDispatch()
-  const onDelete = (id)=>{
-    dispatch(deletetodoAction(id))
+  const  {todo,loading,error}  = useSelector(state => state.todo)
+  useEffect(()=>{
+    dispatch(fetchTodos())
+  },[])
 
-  }
-  const isDone= (id)=>{
-    dispatch(doneTodoAction(id))
-  }
-  console.log(todoList);
+  if (loading) return <div>loading...</div>
+  if(error) return <div>{error}</div>
   return (
+  
     <div>
       <Link to={'/create'}>create</Link>
     <div>
-    {todoList.map(todo => (
-      <div key={todo.id}>
-            {todo.text}
-            {todo.id}
-            <button onClick={()=> onDelete(todo.id)}> DELETE</button>
-            <button onClick={()=>isDone(todo.id)}>DONE</button>
-          </div>))}
+  {/* {todo.map(item => <div style={{border: '1px solid red'}} key={item._uuid}> 
+            <h3>{item.todoData}</h3>
+           
+         </div>)} */}
     </div>
   </div>
   )
